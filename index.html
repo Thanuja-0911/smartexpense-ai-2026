@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartExpense-AI — App Portal & Launcher</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at 50% 20%, #1e1b4b 0%, #0b0f17 60%, #05070a 100%);
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .container {
+      max-width: 860px;
+      width: 100%;
+      background: rgba(19, 25, 38, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(99, 102, 241, 0.15);
+      animation: fadeIn 0.4s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 24px;
+    }
+    .logo-badge {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+      flex-shrink: 0;
+    }
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+    }
+    h1 span {
+      background: linear-gradient(90deg, #818cf8, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-top: 4px;
+    }
+    .banner {
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-radius: 16px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .banner-text {
+      font-size: 13px;
+      color: #c7d2fe;
+      line-height: 1.5;
+    }
+    .banner-text strong {
+      color: #ffffff;
+    }
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .status-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      padding: 18px 20px;
+      transition: all 0.2s ease;
+    }
+    .status-card:hover {
+      border-color: rgba(99, 102, 241, 0.3);
+      transform: translateY(-2px);
+    }
+    .status-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .status-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 9999px;
+    }
+    .pill-green {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .pill-amber {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+    .pill-red {
+      background: rgba(244, 63, 94, 0.15);
+      color: #fb7185;
+      border: 1px solid rgba(244, 63, 94, 0.3);
+    }
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 8px currentColor;
+    }
+    .status-url {
+      font-family: monospace;
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 12px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: 12px;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+    .btn-primary {
+      background: #4f46e5;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+    }
+    .btn-primary:hover {
+      background: #4338ca;
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      color: #e2e8f0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+    .guide-section {
+      background: rgba(11, 15, 23, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 24px;
+    }
+    .guide-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 13px;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+    .step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(99, 102, 241, 0.2);
+      color: #a5b4fc;
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .code-box {
+      background: #090d16;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      color: #38bdf8;
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .copy-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 20px;
+    }
+    .auto-redirect-msg {
+      font-size: 12px;
+      color: #34d399;
+      font-weight: 600;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo-badge">⚡</div>
+      <div>
+        <h1>SmartExpense<span>-AI</span></h1>
+        <p class="subtitle">Full-Stack Personal Finance & AI Insights Platform</p>
+      </div>
+    </div>
+
+    <!-- Live Server Notice Banner -->
+    <div class="banner">
+      <div class="banner-text">
+        <strong>Why did Live Server show a folder listing?</strong><br>
+        SmartExpense-AI is a modern Full-Stack application (React 18 + Vite + Node.js Express). VS Code "Live Server" (port 5500) only serves static files, whereas modern React apps run via Vite's dev server.
+      </div>
+    </div>
+
+    <!-- Live Status Cards -->
+    <div class="status-grid">
+      <!-- Frontend Card -->
+      <div class="status-card">
+        <div class="status-header">
+          <span class="status-title">Frontend (Vite App)</span>
+          <span id="frontend-pill" class="status-pill pill-amber">
+            <span class="pulse-dot"></span> <span id="frontend-status-text">Checking...</span>
+          </span>
+        </div>
+        <div class="status-url" id="frontend-url">http://localhost:3000 (or :5173)</div>
+        <a id="frontend-btn" href="http://localhost:3000" target="_blank" class="btn btn-primary">
+          🚀 Open Application
+        </a>
+      </div>
+
+      <!-- Backend Card -->
+      <div class="status-card">
+        <div class="status-header">
+          <span class="status-title">Backend API</span>
+          <span id="backend-pill" class="status-pill pill-amber">
+            <span class="pulse-dot"></span> <span id="backend-status-text">Checking...</span>
+          </span>
+        </div>
+        <div class="status-url">http://localhost:5000/api/health</div>
+        <a id="backend-btn" href="http://localhost:5000/api/health" target="_blank" class="btn btn-secondary">
+          ⚡ Check Backend API
+        </a>
+      </div>
+    </div>
+
+    <!-- 1-Click Startup Guide -->
+    <div class="guide-section">
+      <div class="guide-title">
+        <span>🛠️ How to Start the App (Choose Any Option)</span>
+      </div>
+      <div class="steps">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div style="flex: 1;">
+            <strong style="color: #f1f5f9;">Option A — One-Click Launcher (Recommended for Windows):</strong><br>
+            Double-click the file <code style="color: #a5b4fc; background: rgba(99,102,241,0.15); padding: 2px 6px; border-radius: 4px;">start-all.bat</code> in your project folder! It starts both backend & frontend and opens the browser automatically.
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div style="flex: 1;">
+            <strong style="color: #f1f5f9;">Option B — Start via VS Code Terminal:</strong><br>
+            Open VS Code terminal (`Ctrl + \``) and run:
+            <div class="code-box">
+              <span>npm run dev</span>
+              <button class="copy-btn" onclick="copyText('npm run dev')">Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div style="flex: 1;">
+            <strong style="color: #f1f5f9;">Option C — Static Built Preview in Live Server:</strong><br>
+            If you want to preview the compiled React app directly inside Live Server without starting terminal commands, click below:
+            <div style="margin-top: 8px;">
+              <a href="./frontend/dist/index.html" class="btn btn-secondary" style="display: inline-flex; width: auto; font-size: 12px; padding: 6px 14px;">
+                👁️ View Static Built App in Live Server
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Auto-redirect notification -->
+    <div id="redirect-banner" class="auto-redirect-msg" style="text-align: center; margin-top: 10px;">
+      ✨ Detected running SmartExpense-AI instance! Redirecting in <span id="countdown">2</span>s...
+    </div>
+
+    <div class="footer">
+      SmartExpense-AI © 2026 — Production-Quality AI Personal Finance SaaS
+    </div>
+  </div>
+
+  <script>
+    let activeFrontendUrl = null;
+
+    async function checkServer(url) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 1200);
+        const res = await fetch(url, { mode: 'no-cors', signal: controller.signal });
+        clearTimeout(timeoutId);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    async function checkStatus() {
+      // Check frontend on port 3000 or 5173
+      const port3000Ok = await checkServer('http://localhost:3000');
+      let frontendOnline = false;
+
+      if (port3000Ok) {
+        activeFrontendUrl = 'http://localhost:3000';
+        frontendOnline = true;
+      } else {
+        const port5173Ok = await checkServer('http://localhost:5173');
+        if (port5173Ok) {
+          activeFrontendUrl = 'http://localhost:5173';
+          frontendOnline = true;
+        }
+      }
+
+      // Check backend on port 5000
+      const backendOnline = await checkServer('http://localhost:5000/api/health');
+
+      // Update Frontend UI
+      const fPill = document.getElementById('frontend-pill');
+      const fText = document.getElementById('frontend-status-text');
+      const fUrl = document.getElementById('frontend-url');
+      const fBtn = document.getElementById('frontend-btn');
+
+      if (frontendOnline) {
+        fPill.className = 'status-pill pill-green';
+        fText.textContent = 'ONLINE';
+        fUrl.textContent = activeFrontendUrl;
+        fBtn.href = activeFrontendUrl;
+        fBtn.textContent = '🚀 Open App (' + activeFrontendUrl + ')';
+
+        // Show auto-redirect message
+        const redirectBanner = document.getElementById('redirect-banner');
+        if (redirectBanner && redirectBanner.style.display !== 'block') {
+          redirectBanner.style.display = 'block';
+          let count = 2;
+          const timer = setInterval(() => {
+            count--;
+            const countEl = document.getElementById('countdown');
+            if (countEl) countEl.textContent = count;
+            if (count <= 0) {
+              clearInterval(timer);
+              window.location.href = activeFrontendUrl;
+            }
+          }, 1000);
+        }
+      } else {
+        fPill.className = 'status-pill pill-red';
+        fText.textContent = 'NOT STARTED';
+      }
+
+      // Update Backend UI
+      const bPill = document.getElementById('backend-pill');
+      const bText = document.getElementById('backend-status-text');
+
+      if (backendOnline) {
+        bPill.className = 'status-pill pill-green';
+        bText.textContent = 'ONLINE';
+      } else {
+        bPill.className = 'status-pill pill-red';
+        bText.textContent = 'NOT STARTED';
+      }
+    }
+
+    function copyText(txt) {
+      navigator.clipboard.writeText(txt);
+      alert('Copied to clipboard: ' + txt);
+    }
+
+    // Run check immediately and every 2.5 seconds
+    checkStatus();
+    setInterval(checkStatus, 2500);
+  </script>
+</body>
+</html>
