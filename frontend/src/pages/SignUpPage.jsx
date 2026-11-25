@@ -75,7 +75,7 @@ export const SignUpPage = () => {
             error={errors.email?.message}
             {...register('email', {
               required: 'Please enter your email',
-              pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' },
+              pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i, message: 'Invalid email address' },
             })}
           />
 

@@ -20,13 +20,14 @@ export const SignInPage = () => {
     defaultValues: {
       email: '',
       password: '',
+      rememberMe: true,
     },
   });
 
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const res = await login(data.email, data.password);
+      const res = await login(data.email, data.password, data.rememberMe);
       toast.success(res.message || 'Login successful!');
       navigate('/app/dashboard');
     } catch (err) {
@@ -47,21 +48,21 @@ export const SignInPage = () => {
             </div>
             <span className="text-xl font-bold text-white">SmartExpense-AI</span>
           </Link>
-          <h2 className="text-xl font-bold text-white pt-2">Welcome Back</h2>
-          <p className="text-xs text-slate-400">Sign in to access your personal finance dashboard.</p>
+          <h2 className="text-xl font-bold text-white pt-2">Sign In with Gmail / Email</h2>
+          <p className="text-xs text-slate-400">Sign in with your Gmail to access your personal finance dashboard.</p>
         </div>
 
         {/* Sign In Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Input
-            label="Email Address"
+            label="Gmail / Email Address"
             type="email"
-            placeholder="name@example.com"
+            placeholder="thanuja09112007@gmail.com"
             icon={Mail}
             error={errors.email?.message}
             {...register('email', {
-              required: 'Please enter your email',
-              pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' },
+              required: 'Please enter your Gmail / email address',
+              pattern: { value: /^\S+@\S+\.\S+$/i, message: 'Invalid email address format' },
             })}
           />
 
@@ -77,8 +78,12 @@ export const SignInPage = () => {
           />
 
           <div className="flex items-center justify-between text-xs pt-1">
-            <label className="flex items-center gap-2 text-slate-400 cursor-pointer">
-              <input type="checkbox" className="rounded bg-slate-950 border-slate-800 text-brand-500" />
+            <label className="flex items-center gap-2 text-slate-400 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                className="rounded bg-slate-950 border-slate-800 text-brand-500 focus:ring-brand-500 focus:ring-offset-0 cursor-pointer"
+                {...register('rememberMe')}
+              />
               <span>Remember me</span>
             </label>
             <Link to="/forgot-password" className="text-brand-400 hover:underline font-medium">
@@ -87,16 +92,13 @@ export const SignInPage = () => {
           </div>
 
           <Button type="submit" variant="primary" className="w-full py-3" loading={loading}>
-            Sign In
+            Sign In with Gmail
           </Button>
         </form>
 
-        {/* Footer Link */}
+        {/* Footer info note */}
         <div className="text-center text-xs text-slate-400 pt-2 border-t border-slate-800">
-          Don't have an account?{' '}
-          <Link to="/register" className="text-brand-400 font-semibold hover:underline">
-            Create an account
-          </Link>
+          <span className="text-slate-400">✨ Enter your Gmail & password to log in or get started immediately.</span>
         </div>
       </div>
     </div>

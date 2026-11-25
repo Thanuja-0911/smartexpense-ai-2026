@@ -48,21 +48,13 @@ export const Navbar = () => {
               <ArrowRight className="w-4 h-4" />
             </Link>
           ) : (
-            <>
-              <Link
-                to="/login"
-                className="px-4 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition-all"
-              >
-                Sign In
-              </Link>
-              <Link
-                to="/register"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-medium text-sm shadow-lg shadow-brand-600/25 transition-all"
-              >
-                Get Started Free
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </>
+            <Link
+              to="/login"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-medium text-sm shadow-lg shadow-brand-600/25 transition-all"
+            >
+              Sign In
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           )}
         </div>
       </div>

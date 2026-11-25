@@ -62,7 +62,7 @@ export const LandingPage = () => {
               SmartExpense-AI helps you track spending, understand your financial habits, build better budgets, and save smarter with personalized AI insights.
             </motion.p>
 
-            {/* CTAs */}
+            {/* CTA: Sign In */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
@@ -70,15 +70,15 @@ export const LandingPage = () => {
               className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2"
             >
               <Link
-                to="/register"
+                to="/login"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold text-base shadow-xl shadow-brand-600/30 transition-all cursor-pointer"
               >
-                Get Started Free
+                Sign In with Gmail
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <a
                 href="#features"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 font-semibold text-base transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900/50 hover:bg-slate-800 border border-slate-800/80 text-slate-400 hover:text-slate-200 font-medium text-sm transition-all"
               >
                 Explore Features
               </a>
@@ -275,12 +275,12 @@ export const LandingPage = () => {
           <p className="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">
             Join thousands of users taking control of their money with SmartExpense-AI.
           </p>
-          <div>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
-              to="/register"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-base shadow-xl shadow-brand-600/30 transition-all"
+              to="/login"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-base shadow-xl shadow-brand-600/30 transition-all"
             >
-              Get Started Free
+              Sign In with Gmail
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>

@@ -9,29 +9,32 @@ const sendEmail = async ({ to, subject, html, text }) => {
     try {
       const transporter = nodemailer.createTransport({
         host: process.env.EMAIL_HOST,
-        port: parseInt(process.env.EMAIL_PORT) || 587,
-        secure: process.env.EMAIL_PORT == '465',
+        port: parseInt(process.env.EMAIL_PORT, 10) || 587,
+        secure: String(process.env.EMAIL_PORT) === '465',
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASSWORD,
         },
+        connectionTimeout: 10000,
       });
 
       const info = await transporter.sendMail({
         from: `"SmartExpense-AI" <${process.env.EMAIL_USER}>`,
         to,
         subject,
-        text,
-        html,
+        text: text || '',
+        html: html || text || '',
       });
-      console.log('📧 Email sent:', info.messageId);
+      console.log('📧 Password reset email dispatched via SMTP:', info.messageId);
       return true;
     } catch (error) {
-      console.warn('⚠️ Nodemailer error:', error.message);
+      console.warn('⚠️ Nodemailer SMTP send warning:', error.message);
+      console.log(`ℹ️ [Email Local Fallback] To: ${to} | Subject: ${subject}`);
       return false;
     }
   }
-  console.log(`ℹ️ [Email Simulation] To: ${to} | Subject: ${subject}`);
+
+  console.log(`ℹ️ [Email Simulation Mode - SMTP not configured in .env] To: ${to} | Subject: ${subject}`);
   return true;
 };
 

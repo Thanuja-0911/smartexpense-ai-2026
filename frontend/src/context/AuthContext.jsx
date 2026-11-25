@@ -5,8 +5,12 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem('smartexpense_user');
-    return saved ? JSON.parse(saved) : null;
+    try {
+      const saved = localStorage.getItem('smartexpense_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
   });
   const [token, setToken] = useState(() => localStorage.getItem('smartexpense_token') || '');
   const [loading, setLoading] = useState(true);
@@ -21,7 +25,14 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem('smartexpense_user', JSON.stringify(res.data));
           }
         } catch (err) {
-          console.warn('Auth verification fallback:', err.message);
+          console.warn('Session verification fallback:', err.message);
+          // If token expired or invalid, clear local session
+          if (err.message && (err.message.includes('401') || err.message.includes('expired') || err.message.includes('authorized'))) {
+            setUser(null);
+            setToken('');
+            localStorage.removeItem('smartexpense_token');
+            localStorage.removeItem('smartexpense_user');
+          }
         }
       }
       setLoading(false);
@@ -29,8 +40,8 @@ export const AuthProvider = ({ children }) => {
     verifyUser();
   }, [token]);
 
-  const login = async (email, password) => {
-    const res = await api.post('/auth/login', { email, password });
+  const login = async (email, password, rememberMe = false) => {
+    const res = await api.post('/auth/login', { email, password, rememberMe });
     if (res.success && res.data) {
       setUser(res.data);
       setToken(res.data.token);
@@ -51,11 +62,17 @@ export const AuthProvider = ({ children }) => {
     return res;
   };
 
-  const logout = () => {
-    setUser(null);
-    setToken('');
-    localStorage.removeItem('smartexpense_token');
-    localStorage.removeItem('smartexpense_user');
+  const logout = async () => {
+    try {
+      await api.post('/auth/logout');
+    } catch {
+      // Ignore network errors on logout
+    } finally {
+      setUser(null);
+      setToken('');
+      localStorage.removeItem('smartexpense_token');
+      localStorage.removeItem('smartexpense_user');
+    }
   };
 
   const updateUserData = (newData) => {

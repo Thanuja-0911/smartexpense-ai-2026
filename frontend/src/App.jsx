@@ -79,21 +79,18 @@ export default function App() {
             <Route
               path="/login"
               element={
-                <PublicOnlyRoute>
-                  <SignInPage />
-                </PublicOnlyRoute>
+                <SignInPage />
               }
             />
             <Route
               path="/register"
               element={
-                <PublicOnlyRoute>
-                  <SignUpPage />
-                </PublicOnlyRoute>
+                <Navigate to="/login" replace />
               }
             />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
+            <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
 
             {/* App Protected Routes */}
             <Route
